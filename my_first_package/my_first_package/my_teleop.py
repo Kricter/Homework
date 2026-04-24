@@ -63,8 +63,6 @@ class MyTeleop(Node):
                 msg.angular.z = self.angular_w
                 self.pub.publish(msg)
                 
-                # 打印当前速度状态（可选）
-                # print(f"\r当前速度: 线速度={self.linear_v}, 角速度={self.angular_w}", end="")
                 
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
