@@ -2,15 +2,15 @@
 import sys
 import rclpy
 from rclpy.node import Node
-from example_interfaces.srv import AddTwoInts # <--- 关键：引用自定义服务
+from example_interfaces.srv import AddTwoInts # 引用自定义服务
 
 class AddTwoIntsClient(Node):
     def __init__(self):
         super().__init__('add_two_ints_client')
-        # 创建客户端，服务名必须与服务端一致：add_two_ints
+        # 创建客户端
         self.client = self.create_client(AddTwoInts, 'add_two_ints')
         
-        # 等待服务可用（防止由于服务端未启动导致连接失败）
+        # 等待服务可用
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         
