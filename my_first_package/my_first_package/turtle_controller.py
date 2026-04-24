@@ -3,7 +3,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
-from std_srvs.srv import SetBool  # 换成绝对稳妥的接口
+from std_srvs.srv import SetBool 
 import math
 
 class TurtleMaster(Node):
@@ -48,7 +48,7 @@ class TurtleMaster(Node):
         v = self.get_parameter('linear_speed').value
         t = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
 
-        # --- 模式 A：特殊花活 (True) ---
+        # --- 模式 A：正弦和方波 (True) ---
         if self.special_mode:
             if (int(t) // 10) % 2 == 0: # 前10秒正弦波
                 msg.linear.x = v
@@ -58,7 +58,7 @@ class TurtleMaster(Node):
                 if cycle < 3.0: msg.linear.x = v
                 else: msg.angular.z = 1.571
 
-        # --- 模式 B：精准往返并停止 (False) ---
+        # --- 模式 B：往返并停止 (False) ---
         else:
             if self.sub_state == "FORWARD":
                 if self.pose.x < 1.5 or self.pose.x > 9.5 or self.pose.y < 1.5 or self.pose.y > 9.5:
