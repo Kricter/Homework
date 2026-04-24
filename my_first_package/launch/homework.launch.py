@@ -13,7 +13,7 @@ def generate_launch_description():
     return LaunchDescription([
         # 启动海龟仿真器
         Node(package='turtlesim', executable='turtlesim_node', name='sim'),
-        # 启动我们的控制器，并加载YAML参数
+        # 启动控制器，并加载YAML参数
         Node(
             package='my_first_package',
             executable='turtle_controller.py',
