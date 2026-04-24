@@ -65,7 +65,7 @@ add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 # 3. 链接依赖
 ament_target_dependencies(add_two_ints_server rclcpp example_interfaces)
 
-# 4. 安装到 install 目录，这样 ros2 run 才能找到它
+# 4. 安装到 install 目录
 install(TARGETS
   add_two_ints_server
   DESTINATION lib/${PROJECT_NAME}
@@ -84,8 +84,7 @@ install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 
-# 2. 安装 Python 脚本到 lib 目录 (关键！不然 launch 找不到可执行文件)
-# 注意：路径要和你文件夹里实际的路径一致
+# 2. 安装 Python 脚本到 lib 目录 
 install(PROGRAMS
   my_first_package/param_node.py
   DESTINATION lib/${PROJECT_NAME}
