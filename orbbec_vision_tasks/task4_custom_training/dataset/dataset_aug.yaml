@@ -1,0 +1,7 @@
+# YOLOv8 数据集配置 (增强版)
+path: /home/kricter/Projects/GroundingDINO_Project/custom_train
+train: images/aug_train
+val: images/val
+
+nc: 1
+names: ['water_bottle']
