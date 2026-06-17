@@ -59,7 +59,7 @@ orbbec_vision_tasks/
 
 ### 硬件
 - Orbbec Astra Pro Plus 深度相机
-- USB 3.0 线材（深度数据必须 USB3）
+- USB 2.0 线材
 - NVIDIA GPU (RTX 4060 测试通过)
 
 ### 软件
@@ -122,11 +122,10 @@ python3 train_v3.py       # 训练
 
 ### TASK1: 深度相机驱动
 使用 Orbbec SDK v1.10.27 驱动 Astra Pro Plus。
-关键：深度流须使用 USB 3.0 接口，否则无法获取深度数据。
 
 ### TASK2: 二维码识别
 采用 WeChatQRCode（opencv_contrib 模块）替代内置 QRCodeDetector，
-识别率远高于 OpenCV 4.5.4 自带的解码器（Ubuntu 包缺 quirc 依赖）。
+识别率远高于 OpenCV 4.5.4 自带的解码器。
 
 ### TASK3: YOLOv8n 目标检测
 使用 COCO 预训练 YOLOv8n，检测 "sports ball" (class 32)。
