@@ -8,12 +8,12 @@
 
 | 任务 | 内容 | 关键技术 | 状态 |
 |------|------|---------|------|
-| TASK1 | 深度相机驱动部署 | Orbbec SDK, USB3 | ✅ |
+| TASK1 | 深度相机驱动部署 | Orbbec SDK | ✅ |
 | TASK2 | 二维码识别 | OpenCV QRCodeDetector + WeChatQRCode | ✅ |
 | TASK3 | YOLOv8n 目标检测 | YOLOv8n, COCO 预训练 | ✅ |
 | TASK4 | 自定义物体训练 | YOLOv8n 微调, 数据增强 | ✅ 93%+ |
 | TASK5 | 深度信息 + 3D 坐标 | RGB-D, D2C, 相机内参 | ✅ |
-| TASK PRO | 桌面语义分割 | YOLOv8n-seg, COCO 分割 | ✅ |
+| TASK PRO | 桌面语义分割 | YOLOv8n-seg, COCO+小样本微调 分割 | ✅ |
 
 ---
 
@@ -55,7 +55,7 @@ orbbec_vision_tasks/
 │
 └── assets/                      # 共享资源
     ├── yolov8n.pt               #   COCO 预训练权重（检测）
-    └── yolov8n-seg.pt           #   COCO 预训练权重（分割）
+    └── yolov8n-seg.pt           #   COCO 预训练权重+小样本微调训练（分割）
 ```
 
 ---
@@ -64,7 +64,7 @@ orbbec_vision_tasks/
 
 ### 硬件
 - Orbbec Astra Pro Plus 深度相机
-- USB 3.0 线材（深度数据必须 USB3）
+- USB 2.0
 - NVIDIA GPU (RTX 4060 测试通过)
 
 ### 软件
@@ -131,11 +131,10 @@ python3 yolo_seg.py
 
 ### TASK1: 深度相机驱动
 使用 Orbbec SDK v1.10.27 驱动 Astra Pro Plus。
-关键：深度流须使用 USB 3.0 接口，否则无法获取深度数据。
 
 ### TASK2: 二维码识别
 采用 WeChatQRCode（opencv_contrib 模块）替代内置 QRCodeDetector，
-识别率远高于 OpenCV 4.5.4 自带的解码器（Ubuntu 包缺 quirc 依赖）。
+识别率远高于 OpenCV 4.5.4 自带的解码器。
 
 ### TASK3: YOLOv8n 目标检测
 使用 COCO 预训练 YOLOv8n，检测 "sports ball" (class 32)。
@@ -143,16 +142,16 @@ python3 yolo_seg.py
 
 ### TASK4: 自定义训练
 以耳塞盒（earphone_box）为训练目标：
-1. 拍摄 40 张照片 → 数据增强至 440 张
+1. 拍摄 50 张照片，其中 40 张作为训练集 → 数据增强至 440 张
 2. label_tool.py 交互打标
 3. YOLOv8n 微调，最终置信度 93%+
-4. 螺丝帽负样本被 0.70 阈值过滤
+4. 干扰负样本被 0.70 阈值过滤
 
 ### TASK5: 深度 + 3D 坐标
 D2C (Depth-to-Color) 硬件对齐，获取 640x480 对齐深度图。
 通过相机内参计算 3D 坐标 (X, Y, Z)，单位米。
 
 ### TASK PRO: 桌面语义分割
-使用 YOLOv8n-seg（COCO 预训练）实时分割桌面物体。
+使用 YOLOv8n-seg（COCO 预训练加微调）实时分割桌面物体。
 支持类别：bottle, cup, cell phone, book, laptop, mouse 等桌面常见物体。
 半透明遮罩 + 轮廓线可视化。
